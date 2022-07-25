@@ -33,12 +33,12 @@ app.get('/', (req, res) => {
 app.post('/playNotification', async (req, res) => {
   const {localIP, sound, volume} = req.body;
   try {
-    await playNotification({
+    let playedNotifications = await playNotification({
       localIP,
       sound,
       volume,
     });
-    res.send();
+    res.status(200).send(playedNotifications);
   } catch (err) {
     res.status(500).send(err);
   }

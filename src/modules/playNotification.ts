@@ -1,7 +1,7 @@
 import { SonosDevice } from '@svrooij/sonos/lib';
 
 type Props = {
-  sound: string;
+  sound?: string;
   localIP?: string;
   volume?: number;
   delayMs?: number;
@@ -14,7 +14,7 @@ export const playNotification = ({
   volume,
   delayMs,
   timeout,
-}: Props): Promise<boolean> => {
+}: Props): Promise<string> => {
   return new Promise((resolve, reject) => {
     (async () => {
       const sonos = new SonosDevice(localIP || '192.168.1.40');
@@ -29,11 +29,8 @@ export const playNotification = ({
           delayMs: delayMs || 700, // Pause between commands in ms, (when sonos fails to play notification often).
         })
         .then(played => {
-          console.log('Played notification(s) %o', played);
+          resolve(`Played notification(s): ${played}`);
           sonos.CancelEvents();
-          setTimeout(() => {
-            resolve(true);
-          }, 5000);
         })
         .catch(error => {
           reject(error);
