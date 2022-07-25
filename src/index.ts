@@ -3,6 +3,7 @@ import express from 'express';
 import { playNotification } from './modules/playNotification';
 
 const app = express();
+app.use(express.json()); //body parser
 const SonosManager = NodeSonos.SonosManager;
 const manager = new SonosManager();
 const port = parseInt(process.env.PORT || '3000', 10);
@@ -30,11 +31,12 @@ app.get('/', (req, res) => {
 });
 
 app.post('/playNotification', async (req, res) => {
+  const {localIP, sound, volume} = req.body;
   try {
     await playNotification({
-      localIP: '192.168.1.40',
-      sound: 'https://cdn.smartersoft-group.com/various/pull-bell-short.mp3',
-      volume: 70,
+      localIP,
+      sound,
+      volume,
     });
     res.send();
   } catch (err) {
