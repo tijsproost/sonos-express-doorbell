@@ -3,7 +3,6 @@ import express from 'express';
 import {
   playNotification,
   playNotificationOnAllGroups,
-  playNotificationOnMulitpleDevices,
 } from './modules/playNotification';
 
 const app = express();
@@ -40,20 +39,6 @@ app.post('/playNotification', async (req, res) => {
       localIP,
       sound,
       volume,
-    });
-    res.status(200).send(playedNotifications);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-app.post('/playNotificationOnMultipleDevices', async (req, res) => {
-  const { sound, volume, localIPs } = req.body;
-  try {
-    const playedNotifications = await playNotificationOnMulitpleDevices({
-      sound,
-      volume,
-      localIPs,
     });
     res.status(200).send(playedNotifications);
   } catch (err) {
