@@ -22,6 +22,13 @@ export const playNotification = ({
 }: Props): Promise<string> => {
   return new Promise((resolve, reject) => {
     (async () => {
+      console.log({
+        sound,
+        localIP,
+        volume,
+        delayMs,
+        timeout,
+      });
       if (localIP) {
         const sonos = new SonosDevice(localIP);
         sonos
