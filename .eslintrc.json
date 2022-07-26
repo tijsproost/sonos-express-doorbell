@@ -1,34 +1,32 @@
-
-
 {
-    "plugins": ["@typescript-eslint", "prettier"],
-    "extends": [
-      "plugin:@typescript-eslint/recommended",
-      "plugin:prettier/recommended"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "rules": {
-      "import/no-anonymous-default-export": "off",
-      "import/order": [
-        "error",
-        {
-          "newlines-between": "never",
-          "groups": [
-            "builtin",
-            "external",
-            "internal",
-            "unknown",
-            "parent",
-            "sibling",
-            "index",
-            "type"
-          ]
-        }
-      ]
-    },
-    "settings": {
-      "import/resolver": {
-        "typescript": {}
+  "plugins": ["@typescript-eslint", "prettier", "import"],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "import/no-anonymous-default-export": "off",
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "never",
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "unknown",
+          "parent",
+          "sibling",
+          "index",
+          "type"
+        ]
       }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
     }
   }
+}

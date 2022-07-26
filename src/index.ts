@@ -1,6 +1,10 @@
 import * as NodeSonos from '@svrooij/sonos';
 import express from 'express';
-import { playNotification } from './modules/playNotification';
+import {
+  playNotification,
+  playNotificationOnAllGroups,
+  playNotificationOnMulitpleDevices,
+} from './modules/playNotification';
 
 const app = express();
 app.use(express.json()); //body parser
@@ -14,7 +18,6 @@ app.get('/', (req, res) => {
       .InitializeWithDiscovery(10)
       .then(console.log)
       .then(() => {
-        // @ts-ignore
         const devices: string[] = [];
         manager.Devices.forEach(d => {
           devices.push(
@@ -31,10 +34,37 @@ app.get('/', (req, res) => {
 });
 
 app.post('/playNotification', async (req, res) => {
-  const {localIP, sound, volume} = req.body;
+  const { localIP, sound, volume } = req.body;
   try {
-    let playedNotifications = await playNotification({
+    const playedNotifications = await playNotification({
       localIP,
+      sound,
+      volume,
+    });
+    res.status(200).send(playedNotifications);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.post('/playNotificationOnMultipleDevices', async (req, res) => {
+  const { sound, volume, localIPs } = req.body;
+  try {
+    const playedNotifications = await playNotificationOnMulitpleDevices({
+      sound,
+      volume,
+      localIPs,
+    });
+    res.status(200).send(playedNotifications);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.post('/playNotificationOnAllDevices', async (req, res) => {
+  const { sound, volume } = req.body;
+  try {
+    const playedNotifications = await playNotificationOnAllGroups({
       sound,
       volume,
     });
